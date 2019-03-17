@@ -30,6 +30,7 @@
     "pug": "^2.0.0-rc.1"
   },
   "devDependencies": {
-    "nodemon": "^1.8.1"
+    "nodemon": "^1.8.1",
+    "uglify-js": ">=2.6.0"
   }
 }
