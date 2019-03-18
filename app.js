@@ -6,8 +6,9 @@ const onerror = require("koa-onerror");
 const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const mongoose = require("mongoose");
-const cors = require('koa2-cors');
-// 引入radis中间件
+const cors = require("koa2-cors");
+// 引入radis与passport
+const passport = require("./utils/passport");
 const session = require("koa-generic-session");
 const Redis = require("koa-redis");
 // 引入数据库配置
@@ -17,18 +18,23 @@ const pv = require("./middleware/koa-pv");
 // 引入路由
 const index = require("./routes/index");
 const users = require("./routes/users");
-// 其他文件
-const passport = require("./utils/passport");
 
 // mongodb
 mongoose.connect(dbConfig.dbs, {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useCreateIndex: true
 });
 
 // error handler
 onerror(app);
 
 // middlewares
+app.use(
+  bodyparser({
+    enableTypes: ["json", "form", "text"]
+  })
+);
+
 app.keys = ["nmsl", "keyskeys"];
 app.use(
   session({
@@ -37,19 +43,19 @@ app.use(
     store: new Redis()
   })
 );
-app.use(cors({
-  origin: function (ctx) {
-    return 'http://localhost:8080';
-  },
-  exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-  maxAge: 5,
-  credentials: true,
-  allowMethods: ['GET', 'POST', 'DELETE'],
-  allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
-}))
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(
-  bodyparser({
-    enableTypes: ["json", "form", "text"]
+  cors({
+    origin: function(ctx) {
+      return "http://localhost:8080";
+    },
+    exposeHeaders: ["WWW-Authenticate", "Server-Authorization"],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ["GET", "POST", "DELETE"],
+    allowHeaders: ["Content-Type", "Authorization", "Accept"]
   })
 );
 
@@ -63,8 +69,6 @@ app.use(
     extension: "pug"
   })
 );
-app.use(passport.initialize());
-app.use(passport.session());
 
 // logger
 app.use(async (ctx, next) => {

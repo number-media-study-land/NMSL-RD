@@ -199,7 +199,8 @@ router.post("/login", async (ctx, next) => {
             code: 0,
             msg: "登录成功",
             data: {
-              user
+              email: user.email,
+              name: user.name
             }
           }
         };
@@ -210,7 +211,7 @@ router.post("/login", async (ctx, next) => {
           msg: "",
           data: {
             code: -1,
-            masg: info
+            msg: info
           }
         };
       }
@@ -246,7 +247,7 @@ router.get("/getUser", async (ctx, next) => {
       msg: "",
       data: {
         code: 0,
-        msg: "已获取用户信息",
+        msg: "用户已登录",
         data: {
           email,
           name
@@ -255,9 +256,12 @@ router.get("/getUser", async (ctx, next) => {
     };
   } else {
     ctx.body = {
-      code: -1,
-      msg: "获取用户信息失败",
-      data: {}
+      code: 0,
+      msg: "",
+      data: {
+        code: 0,
+        msg: "用户未登录"
+      }
     };
   }
 });
