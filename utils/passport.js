@@ -1,6 +1,6 @@
 const passport = require("koa-passport");
 const LocalStrategy = require("passport-local").Strategy;
-const User = require("../dbs/models/user");
+const User = require("../dbs/models/users");
 
 passport.use(new LocalStrategy({
   usernameField: 'email'

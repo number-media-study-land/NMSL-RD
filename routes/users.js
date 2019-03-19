@@ -1,7 +1,7 @@
 const router = require("koa-router")();
 const Redis = require("koa-redis");
 const nodeMailer = require("nodemailer");
-const User = require("../dbs/models/user");
+const User = require("../dbs/models/users");
 const Passport = require("../utils/passport");
 const Email = require("../utils/smtp");
 

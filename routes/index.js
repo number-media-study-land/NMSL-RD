@@ -1,19 +1,29 @@
-const router = require('koa-router')()
+const router = require("koa-router")();
+const Courses = require("../dbs/models/courses");
 
-router.get('/', async (ctx, next) => {
-  await ctx.render('index', {
-    title: 'Hello Koa 2!'
-  })
-})
+router.get("/newestCourse", async (ctx, next) => {
+	let result = await Courses.find({}).limit(3).sort({_id: -1});
+	if (result != null) {
+		ctx.body = {
+			code: 0,
+			msg: "",
+			data: {
+				code: 0,
+				msg: "success",
+				data: result
+			}
+		};
+	} else {
+		ctx.body = {
+			code: 0,
+			msg: "",
+			data: {
+				code: 0,
+				msg: "success",
+				data: []
+			}
+		};
+	}
+});
 
-router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
-})
-
-router.get('/json', async (ctx, next) => {
-  ctx.body = {
-    title: 'koa2 json'
-  }
-})
-
-module.exports = router
+module.exports = router;

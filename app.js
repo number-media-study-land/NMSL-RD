@@ -18,6 +18,7 @@ const pv = require("./middleware/koa-pv");
 // 引入路由
 const index = require("./routes/index");
 const users = require("./routes/users");
+const course = require("./routes/course");
 
 // mongodb
 mongoose.connect(dbConfig.dbs, {
@@ -81,6 +82,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
+app.use(course.routes(), course.allowedMethods());
 
 // error-handling
 app.on("error", (err, ctx) => {
