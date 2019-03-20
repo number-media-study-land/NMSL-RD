@@ -1,28 +1,8 @@
 const router = require("koa-router")();
 const Courses = require("../dbs/models/courses");
+const courseVideo = require("../dbs/models/courseVideo");
 
 router.prefix("/course");
-
-router.post("/addCourse", async (ctx, next) => {
-  const course = ctx.request.body;
-  let newCourse = await Courses.create(course);
-  if (newCourse) {
-    ctx.body = {
-      code: 0,
-      msg: "",
-      data: {
-        code: 0,
-        msg: "课程添加成功"
-      }
-    };
-  } else {
-    ctx.body = {
-      code: -1,
-      msg: "课程添加失败",
-      data: {}
-    };
-  }
-});
 
 router.get("/courseDetail", async (ctx, next) => {
   const { _id } = ctx.request.query;
@@ -107,10 +87,49 @@ router.get("/searchCourse", async (ctx, next) => {
       msg: "",
       data: {
         code: -1,
-        msg: "没有课程",
+        msg: "课程不存在",
         data: {}
       }
     };
   }
 });
+
+router.get("/courseVideoList", async (ctx, next) => {
+  const {_id} = ctx.request.query;
+  let course = await Courses.findOne({_id});
+  if (course) {
+    let result = await courseVideo.findOne({name:course.name});
+    if (result) {
+      ctx.body = {
+        code: 0,
+        msg: "",
+        data: {
+          code: 0,
+          msg: "success",
+          data: result
+        }
+      };
+    } else {
+      ctx.body = {
+        code: 0,
+        msg: "",
+        data: {
+          code: -1,
+          msg: "该课程没有教学视频，请联系管理员",
+          data: {}
+        }
+      };
+    }
+  } else {
+    ctx.body = {
+      code: 0,
+      msg: "",
+      data: {
+        code: -1,
+        msg: "课程不存在",
+        data: {}
+      }
+    };
+  }
+})
 module.exports = router;

@@ -4,8 +4,7 @@ let courseVideoSchema = new mongoose.Schema({
   // 课程名
   name: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   videoList: [{
     title: String,
