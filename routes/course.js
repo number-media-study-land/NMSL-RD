@@ -51,24 +51,54 @@ router.get("/courseDetail", async (ctx, next) => {
 });
 
 router.get("/courseList", async (ctx, next) => {
-  const params = ctx.request.query;
-  let skip = (params.page - 1) * params.pageItem;
-  let limit = params.pageItem;
-  delete params.skip;
-  delete params.limit;
+  const { page, pageItem, ...params } = ctx.request.query;
   try {
-    let result = await Courses.find(params)
-      .skip(skip)
-      .limit(limit)
-      .sort({ _id: -1 });
-    let totalPage = await Courses.find(params).count();
+    let list = await Courses.find(params)
+      .sort({ _id: -1 })
+      .skip((page - 1) * pageItem)
+      .limit(Number(pageItem));
+    let totalPage = await Courses.find(params).countDocuments();
     ctx.body = {
       code: 0,
       msg: "",
       data: {
         code: 0,
         msg: "success",
-        data: { ...result, totalPage: Math.ceil(totalPage/30)}
+        data: { list, totalPage: Math.ceil(totalPage / 30) }
+      }
+    };
+  } catch (error) {
+    ctx.body = {
+      code: 0,
+      msg: "",
+      data: {
+        code: -1,
+        msg: "没有课程",
+        data: {}
+      }
+    };
+  }
+});
+
+router.get("/searchCourse", async (ctx, next) => {
+  const { page, pageItem, ...params } = ctx.request.query;
+  try {
+    let result = await Courses.find({
+      name: { $regex: params.name }
+    })
+      .sort({ _id: -1 })
+      .skip((page - 1) * pageItem)
+      .limit(Number(pageItem));
+    let totalPage = await Courses.find({
+      name: { $regex: params.name }
+    }).countDocuments();
+    ctx.body = {
+      code: 0,
+      msg: "",
+      data: {
+        code: 0,
+        msg: "success",
+        data: { result, totalPage: Math.ceil(totalPage / 30) }
       }
     };
   } catch (error) {
