@@ -3,7 +3,7 @@ const Courses = require("../dbs/models/courses");
 const courseVideo = require("../dbs/models/courseVideo");
 
 router.prefix("/manage/course");
-
+// 创建新课程
 router.post("/addCourse", async (ctx, next) => {
   const course = ctx.request.body;
   let result = await Courses.findOne({ name: course.name });
@@ -36,7 +36,7 @@ router.post("/addCourse", async (ctx, next) => {
     }
   }
 });
-
+// 创建课程视频
 router.post("/addCourseVideo", async (ctx, next) => {
   const params = ctx.request.body;
   console.log(params);

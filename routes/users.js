@@ -17,7 +17,7 @@ function getSalt() {
 }
 
 router.prefix("/users");
-
+// 获取验证码
 router.post("/verify", async ctx => {
   let email = ctx.request.body.email;
 
@@ -99,7 +99,7 @@ router.post("/verify", async ctx => {
     }
   }
 });
-
+// 注册端口
 router.post("/register", async ctx => {
   const { email, password, name, code } = ctx.request.body;
   // 检验邮箱是否被注册
@@ -181,7 +181,7 @@ router.post("/register", async ctx => {
     };
   }
 });
-
+// 登录
 router.post("/login", async (ctx, next) => {
   return Passport.authenticate("local", function(err, user, info, status) {
     if (err) {
@@ -218,7 +218,7 @@ router.post("/login", async (ctx, next) => {
     }
   })(ctx, next);
 });
-
+// 退出
 router.get("/exit", async (ctx, next) => {
   await ctx.logout();
   if (!ctx.isAuthenticated()) {
@@ -238,7 +238,7 @@ router.get("/exit", async (ctx, next) => {
     };
   }
 });
-
+// 验证是否登录
 router.get("/getUser", async (ctx, next) => {
   if (ctx.isAuthenticated()) {
     const { email, name } = ctx.session.passport.user;

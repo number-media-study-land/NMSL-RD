@@ -1,6 +1,7 @@
 const router = require("koa-router")();
 const Courses = require("../dbs/models/courses");
 
+// 查询最新3个课程端口
 router.get("/newestCourse", async (ctx, next) => {
 	let result = await Courses.find({}).limit(3).sort({_id: -1});
 	if (result != null) {
