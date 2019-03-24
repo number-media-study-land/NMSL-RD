@@ -34,16 +34,16 @@ router.get("/courseDetail", async (ctx, next) => {
 router.get("/courseDetailVideoMenu", async (ctx, next) => {
   const { name } = ctx.request.query;
 
-  let result = await courseVideo.findOne({name});
+  let result = await courseVideo.findOne({ name });
   if (result) {
     let videoList = result.videoList;
     videoList.map(item => {
       item.list.map(video => {
-        delete video.src
-        return video
-      })
-      return item
-    })
+        delete video.src;
+        return video;
+      });
+      return item;
+    });
     ctx.body = {
       code: 0,
       msg: "",
@@ -64,7 +64,7 @@ router.get("/courseDetailVideoMenu", async (ctx, next) => {
       }
     };
   }
-})
+});
 // 查询所有课程端口
 router.get("/courseList", async (ctx, next) => {
   const { page, pageItem, ...params } = ctx.request.query;
@@ -131,10 +131,10 @@ router.get("/searchCourse", async (ctx, next) => {
 });
 // 课程学习页-查询视频端口
 router.get("/courseVideoList", async (ctx, next) => {
-  const {_id} = ctx.request.query;
-  let course = await Courses.findOne({_id});
+  const { _id } = ctx.request.query;
+  let course = await Courses.findOne({ _id });
   if (course) {
-    let result = await courseVideo.findOne({name:course.name});
+    let result = await courseVideo.findOne({ name: course.name });
     if (result) {
       ctx.body = {
         code: 0,
@@ -167,5 +167,6 @@ router.get("/courseVideoList", async (ctx, next) => {
       }
     };
   }
-})
+});
+
 module.exports = router;

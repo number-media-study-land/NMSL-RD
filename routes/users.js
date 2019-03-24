@@ -2,6 +2,7 @@ const router = require("koa-router")();
 const Redis = require("koa-redis");
 const nodeMailer = require("nodemailer");
 const User = require("../dbs/models/users");
+const UserStudy = require("../dbs/models/userStudy");
 const Passport = require("../utils/passport");
 const Email = require("../utils/smtp");
 
@@ -165,6 +166,10 @@ router.post("/register", async ctx => {
   });
 
   if (newUser) {
+    await UserStudy.create({
+      userId: newUser._id,
+      studyList: []
+    });
     ctx.body = {
       code: 0,
       msg: "",
@@ -241,7 +246,7 @@ router.get("/exit", async (ctx, next) => {
 // 验证是否登录
 router.get("/getUser", async (ctx, next) => {
   if (ctx.isAuthenticated()) {
-    const { email, name } = ctx.session.passport.user;
+    const { email, name, _id } = ctx.session.passport.user;
     ctx.body = {
       code: 0,
       msg: "",
@@ -249,6 +254,7 @@ router.get("/getUser", async (ctx, next) => {
         code: 0,
         msg: "用户已登录",
         data: {
+          _id,
           email,
           name
         }
@@ -259,11 +265,10 @@ router.get("/getUser", async (ctx, next) => {
       code: 0,
       msg: "",
       data: {
-        code: 0,
+        code: -1,
         msg: "用户未登录"
       }
     };
   }
 });
-
 module.exports = router;
