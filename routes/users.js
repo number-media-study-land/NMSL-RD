@@ -271,4 +271,39 @@ router.get("/getUser", async (ctx, next) => {
     };
   }
 });
+// 管理员登录
+router.post("/Mlogin", async (ctx, next) => {
+  const { user, password } = ctx.request.body;
+  let DB_user = await User.findOne({ user });
+  if (DB_user) {
+    if (DB_user.password === password) {
+      ctx.body = {
+        code: 0,
+        msg: "",
+        data: {
+          code: 0,
+          msg: "success"
+        }
+      };
+    } else {
+      ctx.body = {
+        code: 0,
+        msg: "",
+        data: {
+          code: -1,
+          msg: "用户名或者密码错误"
+        }
+      };
+    }
+  } else {
+    ctx.body = {
+      code: 0,
+      msg: "",
+      data: {
+        code: -1,
+        msg: "用户名或者密码错误"
+      }
+    };
+  }
+})
 module.exports = router;
