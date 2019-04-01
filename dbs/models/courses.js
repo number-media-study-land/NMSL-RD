@@ -36,6 +36,11 @@ let coursesSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  // 是否添加课程视频
+  videos: {
+    type: Boolean,
+    required: true
+  }
 });
 
 module.exports = mongoose.model("Course", coursesSchema);

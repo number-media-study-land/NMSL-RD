@@ -17,7 +17,7 @@ router.post("/addCourse", async (ctx, next) => {
       }
     };
   } else {
-    let newCourse = await Courses.create(course);
+    let newCourse = await Courses.create({...course, videos: false});
     if (newCourse) {
       ctx.body = {
         code: 0,
@@ -39,7 +39,6 @@ router.post("/addCourse", async (ctx, next) => {
 // 创建课程视频
 router.post("/addCourseVideo", async (ctx, next) => {
   const params = ctx.request.body;
-  console.log(params);
   let result = await courseVideo.findOne({ name: params.name });
   if (result) {
     ctx.body = {
@@ -53,6 +52,14 @@ router.post("/addCourseVideo", async (ctx, next) => {
   } else {
     let newCourse = await courseVideo.create(params);
     if (newCourse) {
+      await Courses.findOneAndUpdate(
+        { name: params.name },
+        {
+          $set: {
+            videos: true,
+          }
+        }
+      );
       ctx.body = {
         code: 0,
         msg: "",

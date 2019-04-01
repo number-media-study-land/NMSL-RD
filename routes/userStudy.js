@@ -9,7 +9,6 @@ router.prefix("/userStudy");
 router.get("/userStudyList", async (ctx, next) => {
   const { userId } = ctx.request.query;
   let result = await UserStudy.findOne({ userId });
-  console.log(ctx.request.query);
   if (result != null) {
     ctx.body = {
       code: 0,
