@@ -9,7 +9,7 @@ router.prefix("/userStudy");
 router.get("/userStudyList", async (ctx, next) => {
   const { userId } = ctx.request.query;
   let result = await UserStudy.findOne({ userId });
-  console.log(result);
+  console.log(ctx.request.query);
   if (result != null) {
     ctx.body = {
       code: 0,
@@ -81,7 +81,7 @@ router.post("/courseInUser", async (ctx, next) => {
     }
   }
 });
-
+// 更新学习进度
 router.post("/updateProgress", async (ctx, next) => {
   let { userId, courseId, progress, progressName } = ctx.request.body;
   let addCourseToUser = await UserStudy.findOneAndUpdate(

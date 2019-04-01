@@ -21,6 +21,7 @@ const users = require("./routes/users");
 const course = require("./routes/course");
 const userStudy = require("./routes/userStudy");
 const M_course = require("./routes/M_course");
+const M_user = require("./routes/M_user");
 
 // mongodb
 mongoose.connect(dbConfig.dbs, {
@@ -87,6 +88,7 @@ app.use(users.routes(), users.allowedMethods());
 app.use(course.routes(), course.allowedMethods());
 app.use(userStudy.routes(), userStudy.allowedMethods());
 app.use(M_course.routes(), M_course.allowedMethods());
+app.use(M_user.routes(), M_user.allowedMethods());
 
 // error-handling
 app.on("error", (err, ctx) => {

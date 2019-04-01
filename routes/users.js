@@ -162,7 +162,8 @@ router.post("/register", async ctx => {
     email: email,
     password: DB_pass,
     name: name,
-    salt: salt
+    salt: salt,
+    role: 1
   });
 
   if (newUser) {

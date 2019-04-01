@@ -17,6 +17,10 @@ let usersSchema = new mongoose.Schema({
   salt: {
     type: String,
     required: true
+  },
+  role: {
+    type: Number,
+    required: true
   }
 });
 
