@@ -83,7 +83,7 @@ router.get("/courseList", async (ctx, next) => {
       data: {
         code: 0,
         msg: "success",
-        data: { list, totalPage: Math.ceil(totalPage / 30) }
+        data: { list, totalPage: Math.ceil(totalPage / pageItem) }
       }
     };
   } catch (error) {
@@ -117,7 +117,7 @@ router.get("/searchCourse", async (ctx, next) => {
       data: {
         code: 0,
         msg: "success",
-        data: { result, totalPage: Math.ceil(totalPage / 30) }
+        data: { result, totalPage: Math.ceil(totalPage / pageItem) }
       }
     };
   } catch (error) {

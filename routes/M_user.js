@@ -18,7 +18,7 @@ router.get("/getUserList", async (ctx, next) => {
       data: {
         code: 0,
         msg: "success",
-        data: { list, totalPage: Math.ceil(totalPage / 20) }
+        data: { list, totalPage: Math.ceil(totalPage / pageItem) }
       }
     };
   } else {
@@ -71,7 +71,7 @@ router.get("/searchUser", async (ctx, next) => {
       data: {
         code: 0,
         msg: "success",
-        data: { result, page, pageItem, totalPage: Math.ceil(totalPage / 30) }
+        data: { result, page, pageItem, totalPage: Math.ceil(totalPage / pageItem) }
       }
     };
   } catch (error) {
