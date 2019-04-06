@@ -68,6 +68,9 @@ router.get("/courseDetailVideoMenu", async (ctx, next) => {
 // 查询所有课程端口
 router.get("/courseList", async (ctx, next) => {
   const { page, pageItem, ...params } = ctx.request.query;
+  if (params.name) {
+    params.name = { $regex: params.name };
+  }
   try {
     let list = await Courses.find(params)
       .sort({ _id: -1 })
