@@ -17,7 +17,7 @@ router.post("/addCourse", async (ctx, next) => {
       }
     };
   } else {
-    let newCourse = await Courses.create({...course, videos: false});
+    let newCourse = await Courses.create({...course});
     if (newCourse) {
       ctx.body = {
         code: 0,
@@ -36,6 +36,68 @@ router.post("/addCourse", async (ctx, next) => {
     }
   }
 });
+// 更新课程
+router.post("/updateCourse", async (ctx, next) => {
+  const course = ctx.request.body;
+  let result = await Courses.update(
+    { name: course.name },
+    {
+      name: course.name,
+      type: course.type,
+      level: course.level,
+      intro: course.intro,
+      detail: course.detail,
+      time: course.time,
+      cover: course.cover
+    }
+  );
+  if (result) {
+    ctx.body = {
+      code: 0,
+      msg: "",
+      data: {
+        code: 0,
+        msg: "更新成功"
+      }
+    };
+  } else {
+    ctx.body = {
+      code: 0,
+      msg: "",
+      data: {
+        code: -1,
+        msg: "更新失败"
+      }
+    };
+  }
+});
+// 删除课程
+router.post("/delCourse", async (ctx, next) => {
+  const course = ctx.request.body;
+  let result = await Courses.update(
+    { _id: course._id },
+    { del: true }
+  );
+  if (result) {
+    ctx.body = {
+      code: 0,
+      msg: "",
+      data: {
+        code: 0,
+        msg: "删除成功"
+      }
+    };
+  } else {
+    ctx.body = {
+      code: 0,
+      msg: "",
+      data: {
+        code: -1,
+        msg: "删除失败"
+      }
+    };
+  }
+});
 // 创建课程视频
 router.post("/addCourseVideo", async (ctx, next) => {
   const params = ctx.request.body;
@@ -52,13 +114,9 @@ router.post("/addCourseVideo", async (ctx, next) => {
   } else {
     let newCourse = await courseVideo.create(params);
     if (newCourse) {
-      await Courses.findOneAndUpdate(
+      await Courses.update(
         { name: params.name },
-        {
-          $set: {
-            videos: true,
-          }
-        }
+        { videos: true }
       );
       ctx.body = {
         code: 0,

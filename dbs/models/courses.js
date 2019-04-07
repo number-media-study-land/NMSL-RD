@@ -39,7 +39,12 @@ let coursesSchema = new mongoose.Schema({
   // 是否添加课程视频
   videos: {
     type: Boolean,
-    required: true
+    default: false
+  },
+  // 是否被删除
+  del: {
+    type: Boolean,
+    default: false
   }
 });
 

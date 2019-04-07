@@ -71,6 +71,7 @@ router.get("/courseList", async (ctx, next) => {
   if (params.name) {
     params.name = { $regex: params.name };
   }
+  params.del = false;
   try {
     let list = await Courses.find(params)
       .sort({ _id: -1 })
