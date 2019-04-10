@@ -206,7 +206,8 @@ router.post("/login", async (ctx, next) => {
             msg: "登录成功",
             data: {
               email: user.email,
-              name: user.name
+              name: user.name,
+              _id: user._id
             }
           }
         };

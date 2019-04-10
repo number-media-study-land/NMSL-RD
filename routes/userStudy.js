@@ -35,9 +35,8 @@ router.get("/userStudyList", async (ctx, next) => {
 router.post("/courseInUser", async (ctx, next) => {
   let { userId, courseId } = ctx.request.body;
   let result = await UserStudy.findOne({
-    userId,
-    studyList: { $elemMatch: { courseId } }
-  });
+    userId, 'studyList.courseId':courseId
+  }, {userId:1, 'studyList.$': 1})
   if (result) {
     // 如果学过该课程则返回
     ctx.body = {
@@ -92,6 +91,21 @@ router.post("/updateProgress", async (ctx, next) => {
       }
     }
   );
-  console.log(addCourseToUser);
+  if (addCourseToUser) {
+    ctx.body = {
+      code: 0,
+      msg: "success",
+      data: {}
+    };
+  } else {
+    ctx.body = {
+      code: 0,
+      msg: "",
+      data: {
+        code: -1,
+        msg: "课程进度保存失败"
+      }
+    };
+  }
 });
 module.exports = router;
