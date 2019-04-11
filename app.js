@@ -22,6 +22,8 @@ const course = require("./routes/course");
 const userStudy = require("./routes/userStudy");
 const M_course = require("./routes/M_course");
 const M_user = require("./routes/M_user");
+// 评论路由
+// const comment = require("./routes/comment");
 
 // mongodb
 mongoose.connect(dbConfig.dbs, {
@@ -89,6 +91,8 @@ app.use(course.routes(), course.allowedMethods());
 app.use(userStudy.routes(), userStudy.allowedMethods());
 app.use(M_course.routes(), M_course.allowedMethods());
 app.use(M_user.routes(), M_user.allowedMethods());
+// 评论路由
+// app.use(comment.routes(), comment.allowedMethods());
 
 // error-handling
 app.on("error", (err, ctx) => {
