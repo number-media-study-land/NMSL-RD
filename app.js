@@ -55,7 +55,14 @@ app.use(passport.session());
 app.use(
   cors({
     origin: function(ctx) {
-      return ["http://localhost:8080", "http://bs_u.paraslee.cn", "http://bs_m.paraslee.cn"];
+      let origin = ctx.request.origin;
+      if (origin === "http://localhost:3000") {
+        return "http://localhost:8080";
+      } else if (origin === "http://bs_u.paraslee.cn") {
+        return "http://bs_u.paraslee.cn"
+      } else if (origin === "http://bs_m.paraslee.cn") {
+        return "http://bs_m.paraslee.cn"
+      }
     },
     exposeHeaders: ["WWW-Authenticate", "Server-Authorization"],
     maxAge: 5,
