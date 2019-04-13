@@ -1,5 +1,5 @@
 module.exports = {
-  dbs: "mongodb://localhost:27017/test",
+  dbs: "mongodb://localhost:27017/nmsl",
   redis: {
     get host() {
       return "localhost";
