@@ -55,7 +55,7 @@ app.use(passport.session());
 app.use(
   cors({
     origin: function(ctx) {
-      let origin = ctx.request.origin;
+      let origin = ctx.request.header.origin;
       console.log(ctx);
       console.log(origin);
       if (origin === "http://localhost:3000") {
