@@ -56,6 +56,8 @@ app.use(
   cors({
     origin: function(ctx) {
       let origin = ctx.request.origin;
+      console.log(ctx);
+      console.log(origin);
       if (origin === "http://localhost:3000") {
         return "http://localhost:8080";
       } else if (origin === "http://bs_u.paraslee.cn") {
