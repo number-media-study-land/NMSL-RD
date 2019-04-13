@@ -169,6 +169,7 @@ router.post("/addCourseVideo", async (ctx, next) => {
     }
   }
 });
+// 更新课程视频
 router.post("/updateCourseVideo", async (ctx, next) => {
   const params = ctx.request.body;
   let result = await courseVideo.update(
