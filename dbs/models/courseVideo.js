@@ -10,7 +10,8 @@ let courseVideoSchema = new mongoose.Schema({
     title: String,
     list: [{
       title: String,
-      src: String
+      src: String,
+      qa: String
     }]
   }]
 });

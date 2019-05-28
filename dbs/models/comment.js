@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 
 let comment = new mongoose.Schema({
-  // 视频id
+  // 所属章节名
+  progressName: {
+    type: String,
+    required: true
+  },
+  // 对应章节id
   videoId: {
     type: String,
     required: true
@@ -21,17 +26,6 @@ let comment = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // 评论回复
-  commentResponse: [{
-    // 回复人
-    responseUser: String,
-    // 被回复的人
-    beResponseUser: String,
-    // 回复内容
-    responseContent: String,
-    // 回复时间
-    responseTime: String,
-  }]
 });
 
 module.exports = mongoose.model("Comment", comment);
